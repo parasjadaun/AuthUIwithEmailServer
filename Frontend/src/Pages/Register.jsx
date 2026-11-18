@@ -14,29 +14,51 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+
+   
+const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
+        setError("Passwords do not match.");
+        return;
     }
 
-    console.log({
-      name: { firstName, lastName },
-      email,
-      password,
-    });
+    try {
+        const response = await registerUser({
+            name: { firstName, lastName },
+            email,
+            password,
+        });
+
+        console.log("SUCCESS:", response);
+
+        setError("Registration successful! Please log in.");
+
+        setTimeout(() => {
+            navigate("/login");
+        }, 1500);
+
+    } catch (err) {
+        console.log("ERROR RESPONSE:", err.response?.data);
+
+        const message = err.response?.data?.message ||
+            "Something went wrong.";
+
+        setError(message);
+
+        if (message.toLowerCase().includes("email already exists")) {
+            setError("Email already registered. Please log in.");
+
+            setTimeout(() => {
+                navigate("/login");
+            }, 2000);
+        }
+    }
+};
 
 
-    const response = await registerUser({
-      name: { firstName, lastName },
-      email,
-      password,
-    });
-    console.log("Registration response:", response);
-  };
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-amber-300 px-4 py-8">
