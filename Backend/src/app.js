@@ -9,7 +9,7 @@ const app=express();
 app.use(express.json());
 
 app.use(cors({
-  origin: ["http://localhost:5173","https://auth-gater.vercel.app"],
+  origin: ["http://localhost:5173","https://auth-gater.vercel.app","auth-gater-4gn3p3aqt-paras-jadaun.vercel.app"],
   credentials: true,
 }));
 
