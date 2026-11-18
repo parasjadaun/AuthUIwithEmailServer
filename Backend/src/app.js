@@ -13,6 +13,12 @@ app.use(cors({
   credentials: true,
 }));
 
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Backend is running successfully!"
+    });
+});
 
 app.use('/api/auth',AuthRouter);
 app.use('/api',UpdateRoutes);
